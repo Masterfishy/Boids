@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cf900057841af48ab67b533c22b7ca, type: 3}
   m_Name: Boid_CollisionDistance
   m_EditorClassIdentifier: 
-  m_InitialValue: 15
+  m_InitialValue: 5

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 086b04c2228d2d94e8a48042bebb1b3c, type: 3}
+  m_Name: Boid_MatchingCurve
+  m_EditorClassIdentifier: 
+  m_InitialCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.00367558
+      value: 0.80133796
+      inSlope: 0.6435279
+      outSlope: 0.6435279
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.23186812
+    - serializedVersion: 3
+      time: 1.0306679
+      value: 0.5106461
+      inSlope: -1.8858588
+      outSlope: -1.8858588
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.1095363
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

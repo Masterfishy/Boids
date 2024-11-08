@@ -4,15 +4,23 @@ public class BoidController : MonoBehaviour
 {
     public BoundVector3 WorldDimensions;
     public FloatReference Speed;
+    public BoolReference Debug_ShowVelocityVector;
 
     [Header("Collision Detection")]
     public BoolReference Debug_ShowCollisionVectors;
     public BoolReference Debug_ShowAvoidVectors;
-    public BoolReference Debug_ShowVelocityVector;
     public IntReference NumberOfCollisionVectors;
     public FloatReference CollisionDistance;
-    public EvaluationCurveReference CollisionCurve;
     public FloatReference CollisionFov;
+    public EvaluationCurveReference CollisionCurve;
+
+    [Header("Velocity Matching")]
+    public BoolReference Debug_ShowMatchingVectors;
+    public BoolReference Debug_ShowAttractVectors;
+    public IntReference NumberOfMatchingVectors;
+    public FloatReference MatchingDistance;
+    public FloatReference MatchingFov;
+    public EvaluationCurveReference MatchingCurve;
 
     private Vector3 m_Velocity;
     private Vector3 m_NextPosition;
@@ -40,7 +48,7 @@ public class BoidController : MonoBehaviour
     void Update()
     {
         ApplyCollisionAvoidance(ref m_Velocity);
-        //ApplyVelocityMatching(ref m_Velocity);
+        ApplyVelocityMatching(ref m_Velocity);
 
         m_NextPosition.x = transform.position.x + m_Velocity.x * Time.deltaTime;
         m_NextPosition.y = transform.position.y + m_Velocity.y * Time.deltaTime;
@@ -88,26 +96,36 @@ public class BoidController : MonoBehaviour
 
     private void ApplyVelocityMatching(ref Vector3 velocity)
     {
-        Vector3 velocityDirection = velocity.normalized;
+        Vector3 velocityDirection = Vector3.zero;
 
-        float rotationOffset = Mathf.Atan2(velocity.y, velocity.x) - (Mathf.Deg2Rad * CollisionFov) / 2;
+        float rotationOffset = Mathf.Atan2(velocity.y, velocity.x) - (Mathf.Deg2Rad * MatchingFov) / 2;
 
-        for (int i = 0; i < NumberOfCollisionVectors; i++)
+        for (int i = 0; i < NumberOfMatchingVectors; i++)
         {
-            float angle = i * Mathf.Deg2Rad * CollisionFov / NumberOfCollisionVectors;
+            float angle = i * Mathf.Deg2Rad * MatchingFov / NumberOfMatchingVectors;
             angle += rotationOffset;
-            Vector3 collisionRay = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f).normalized;
+            Vector3 matchRay = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f).normalized;
 
-            RaycastHit2D result = Physics2D.Raycast(transform.position, collisionRay, CollisionDistance);
+            if (Debug_ShowMatchingVectors)
+            {
+                Debug.DrawRay(transform.position, matchRay * MatchingDistance, Color.white);
+            }
+
+            RaycastHit2D result = Physics2D.Raycast(transform.position, matchRay, MatchingDistance);
             if (result && result.transform.gameObject.TryGetComponent(out BoidController boid))
             {
-                float weight = 1 - (result.distance / CollisionDistance);
+                float weight = 1 - (result.distance / MatchingDistance);
 
-                velocityDirection += CollisionCurve.Evaluate(weight) * boid.GetVelocityDirection();
+                velocityDirection += MatchingCurve.Evaluate(weight) * boid.GetVelocityDirection();
+
+                if (Debug_ShowAttractVectors)
+                {
+                    Debug.DrawRay(transform.position, MatchingDistance * MatchingCurve.Evaluate(weight) * matchRay, Color.green);
+                }
             }
         }
 
-        velocity = Speed * velocityDirection;
+        velocity += velocityDirection;
     }
 
     /// <summary>

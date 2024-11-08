@@ -160,13 +160,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WorldDimensions: {fileID: 11400000, guid: 8c15e435700e21b4d8d03f7ea59258f2, type: 2}
   Speed: {fileID: 11400000, guid: 77bca7f51d9826741af0b364cc50a621, type: 2}
+  Debug_ShowVelocityVector: {fileID: 11400000, guid: 27cceef838f754c4fa831ccd06528ef3, type: 2}
   Debug_ShowCollisionVectors: {fileID: 11400000, guid: ff84214956220d148a00336046e97661, type: 2}
   Debug_ShowAvoidVectors: {fileID: 11400000, guid: 1c8d30d593485324d94e385033ff4b9d, type: 2}
-  Debug_ShowVelocityVector: {fileID: 11400000, guid: 27cceef838f754c4fa831ccd06528ef3, type: 2}
   NumberOfCollisionVectors: {fileID: 11400000, guid: e6079d1f9316a53428fecee6274a1ba9, type: 2}
   CollisionDistance: {fileID: 11400000, guid: 281ddea36c7584847b4c98d478afc580, type: 2}
-  CollisionCurve: {fileID: 11400000, guid: 9c3706e5b14594246a0301bf9a77a6b7, type: 2}
   CollisionFov: {fileID: 11400000, guid: df86ec886ccd88d45aa6178da278cbcb, type: 2}
+  CollisionCurve: {fileID: 11400000, guid: 9c3706e5b14594246a0301bf9a77a6b7, type: 2}
+  Debug_ShowMatchingVectors: {fileID: 11400000, guid: 6bd951cfc17779a4fbf298a7b9d39325, type: 2}
+  Debug_ShowAttractVectors: {fileID: 11400000, guid: 377734646e4a2ff489ada83b29a82f11, type: 2}
+  NumberOfMatchingVectors: {fileID: 11400000, guid: bea86b09402f7334286f8d290a02b2df, type: 2}
+  MatchingDistance: {fileID: 11400000, guid: e3823bdf327446c468ca0ecf853b6458, type: 2}
+  MatchingFov: {fileID: 11400000, guid: f13b361f088ba5045ba69d428a22a5cf, type: 2}
+  MatchingCurve: {fileID: 11400000, guid: 0413e803edc9cba4a9869c0e74b41220, type: 2}
 --- !u!61 &8012529503515076911
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bcabc4d742a30c4db587a3f30c04298, type: 3}
   m_Name: WorldBounds
   m_EditorClassIdentifier: 
-  Size: {x: 100, y: 100, z: 0}
+  Size: {x: 200, y: 200, z: 0}

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3cf900057841af48ab67b533c22b7ca, type: 3}
-  m_Name: Boid_Speed
+  m_Script: {fileID: 11500000, guid: aa229c64d1a21f742bf4b33c181f158d, type: 3}
+  m_Name: Boid_NumMatchingVectors
   m_EditorClassIdentifier: 
-  m_InitialValue: 15
+  m_InitialValue: 10
