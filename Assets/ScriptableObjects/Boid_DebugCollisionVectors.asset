@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c4abda8512d364f9af8858eebcbc87, type: 3}
   m_Name: Boid_DebugCollisionVectors
   m_EditorClassIdentifier: 
-  m_InitialValue: 1
+  m_InitialValue: 0

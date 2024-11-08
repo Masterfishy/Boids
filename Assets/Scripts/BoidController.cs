@@ -2,14 +2,13 @@ using UnityEngine;
 
 public class BoidController : MonoBehaviour
 {
-
-
     public BoundVector3 WorldDimensions;
-    public float Speed;
+    public FloatReference Speed;
 
     [Header("Collision Detection")]
     public BoolReference Debug_ShowCollisionVectors;
     public BoolReference Debug_ShowAvoidVectors;
+    public BoolReference Debug_ShowVelocityVector;
     public IntReference NumberOfCollisionVectors;
     public FloatReference CollisionDistance;
     public EvaluationCurveReference CollisionCurve;
@@ -17,7 +16,6 @@ public class BoidController : MonoBehaviour
 
     private Vector3 m_Velocity;
     private Vector3 m_NextPosition;
-    private Vector3[] m_CollisionVectors;
 
     // Start is called before the first frame update
     void Start()
@@ -27,23 +25,22 @@ public class BoidController : MonoBehaviour
         m_Velocity.y = Speed * Mathf.Sin(zRotation);
 
         m_NextPosition = transform.position;
+    }
 
-        if (NumberOfCollisionVectors != null)
-        {
-            m_CollisionVectors = new Vector3[NumberOfCollisionVectors];
-
-            for (uint i = 0; i < NumberOfCollisionVectors; i++)
-            {
-                float angle = i * 2 * Mathf.PI / NumberOfCollisionVectors;
-                m_CollisionVectors[i] = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f).normalized;
-            }
-        }
+    /// <summary>
+    /// Get the velocity of the Boid
+    /// </summary>
+    /// <returns>The velocity of the boid</returns>
+    public Vector3 GetVelocityDirection()
+    {
+        return m_Velocity.normalized;
     }
 
     // Update is called once per frame
     void Update()
     {
         ApplyCollisionAvoidance(ref m_Velocity);
+        //ApplyVelocityMatching(ref m_Velocity);
 
         m_NextPosition.x = transform.position.x + m_Velocity.x * Time.deltaTime;
         m_NextPosition.y = transform.position.y + m_Velocity.y * Time.deltaTime;
@@ -60,18 +57,53 @@ public class BoidController : MonoBehaviour
     {
         Vector3 velocityDirection = velocity.normalized;
 
-        for (uint i = 0; i < NumberOfCollisionVectors; i++)
+        float rotationOffset = Mathf.Atan2(velocity.y, velocity.x) - (Mathf.Deg2Rad * CollisionFov) / 2;
+
+        for (int i = 0; i < NumberOfCollisionVectors; i++)
         {
-            RaycastHit2D result = Physics2D.Raycast(transform.position, m_CollisionVectors[i], CollisionDistance);
+            float angle = i * Mathf.Deg2Rad * CollisionFov / NumberOfCollisionVectors;
+            angle += rotationOffset;
+            Vector3 collisionRay = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f).normalized;
+
+            if (Debug_ShowCollisionVectors)
+            {
+                Debug.DrawRay(transform.position, collisionRay * CollisionDistance, Color.yellow);
+            }
+
+            RaycastHit2D result = Physics2D.Raycast(transform.position, collisionRay, CollisionDistance);
             if (result)
             {
                 float weight = 1 - (result.distance / CollisionDistance);
-                velocityDirection += -CollisionCurve.Evaluate(weight) * m_CollisionVectors[i];
+                velocityDirection += -CollisionCurve.Evaluate(weight) * collisionRay;
 
                 if (Debug_ShowAvoidVectors)
                 {
-                    Debug.DrawRay(transform.position, CollisionDistance * CollisionCurve.Evaluate(weight) * m_CollisionVectors[i], Color.red);
+                    Debug.DrawRay(transform.position, CollisionDistance * CollisionCurve.Evaluate(weight) * collisionRay, Color.red);
                 }
+            }
+        }
+
+        velocity = Speed * velocityDirection;
+    }
+
+    private void ApplyVelocityMatching(ref Vector3 velocity)
+    {
+        Vector3 velocityDirection = velocity.normalized;
+
+        float rotationOffset = Mathf.Atan2(velocity.y, velocity.x) - (Mathf.Deg2Rad * CollisionFov) / 2;
+
+        for (int i = 0; i < NumberOfCollisionVectors; i++)
+        {
+            float angle = i * Mathf.Deg2Rad * CollisionFov / NumberOfCollisionVectors;
+            angle += rotationOffset;
+            Vector3 collisionRay = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f).normalized;
+
+            RaycastHit2D result = Physics2D.Raycast(transform.position, collisionRay, CollisionDistance);
+            if (result && result.transform.gameObject.TryGetComponent(out BoidController boid))
+            {
+                float weight = 1 - (result.distance / CollisionDistance);
+
+                velocityDirection += CollisionCurve.Evaluate(weight) * boid.GetVelocityDirection();
             }
         }
 
@@ -122,16 +154,10 @@ public class BoidController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(transform.position, m_Velocity.normalized);
-
-        if (Debug_ShowCollisionVectors)
+        if (Debug_ShowVelocityVector)
         {
-            Gizmos.color = Color.yellow;
-            for (uint i = 0; i < NumberOfCollisionVectors; i++)
-            {
-                Gizmos.DrawRay(transform.position, CollisionDistance * m_CollisionVectors[i]);
-            }
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(transform.position, m_Velocity.normalized);
         }
     }
 }

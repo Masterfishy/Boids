@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa229c64d1a21f742bf4b33c181f158d, type: 3}
   m_Name: Boid_NumCollisionVectors
   m_EditorClassIdentifier: 
-  m_InitialValue: 8
+  m_InitialValue: 15
