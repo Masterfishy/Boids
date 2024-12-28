@@ -3,31 +3,50 @@ using UnityEngine.UI;
 
 public class DebugSliderController : MonoBehaviour
 {
-    public FloatReference Value;
-    public Slider slider;
+    public bool m_WholeNumbers;
+    public IntReference m_IntValue;
+    public FloatReference m_FloatValue;
+    public Slider m_Slider;
 
     private void OnEnable()
     {
-        if (slider != null && Value != null)
+        if (m_Slider == null)
         {
-            slider.value = Value;
-            slider.onValueChanged.AddListener(OnValueChanged);
+            return;
+        }
+
+        m_Slider.wholeNumbers = m_WholeNumbers;
+        m_Slider.onValueChanged.AddListener(OnValueChanged);
+
+        if (m_WholeNumbers && m_IntValue != null)
+        {
+            m_Slider.value = m_IntValue;
+        }
+
+        if (!m_WholeNumbers && m_FloatValue != null)
+        {
+            m_Slider.value = m_FloatValue;
         }
     }
 
     private void OnDisable()
     {
-        if (slider != null)
+        if (m_Slider != null)
         {
-            slider.onValueChanged.RemoveAllListeners();
+            m_Slider.onValueChanged.RemoveAllListeners();
         }
     }
 
     private void OnValueChanged(float newValue)
     {
-        if (Value != null)
+        if (m_WholeNumbers && m_IntValue != null)
         {
-            Value.Value = newValue;
+            m_IntValue.Value = Mathf.FloorToInt(newValue);
+        }
+
+        if (!m_WholeNumbers && m_FloatValue != null)
+        {
+            m_FloatValue.Value = newValue;
         }
     }
 }

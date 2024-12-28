@@ -203,12 +203,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
+  m_fontSize: 18.25
   m_fontSizeBase: 16
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 1
+  m_fontSizeMax: 55
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -372,7 +372,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 45}
+  m_SizeDelta: {x: 180, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3085872808028362964
 MonoBehaviour:
@@ -412,8 +412,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f851153a04392148b7cdaaa3a35a147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Value: {fileID: 0}
-  slider: {fileID: 2442796201187390798}
+  m_WholeNumbers: 0
+  m_IntValue: {fileID: 0}
+  m_FloatValue: {fileID: 0}
+  m_Slider: {fileID: 2442796201187390798}
 --- !u!1 &8138587965113640257
 GameObject:
   m_ObjectHideFlags: 0
